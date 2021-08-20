@@ -1,4 +1,5 @@
 import * as React from "react"
+import { Button } from 'antd'
 
 // styles
 const pageStyles = {
@@ -130,6 +131,7 @@ const IndexPage = () => {
   return (
     <main style={pageStyles}>
       <title>Home Page</title>
+      <Button type="primary">Test</Button>
       <h1 style={headingStyles}>
         Congratulations
         <br />
