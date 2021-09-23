@@ -1,4 +1,4 @@
-import { Col, Row, Table, Typography } from "antd";
+import { Col, Row, Table, Typography, DatePicker } from "antd";
 import * as React from "react";
 import {
   AdvancedChart,
@@ -45,9 +45,11 @@ const IndexPage = () => {
     <main style={pageStyles}>
       <title>Stonks</title>
       <Text>Last edit: 22Sep2021, 8292</Text>
-      <br />
-      <br />
       <Title>Leaderboard</Title>
+      <div>
+        <DatePicker />
+      </div>
+      <br />
       <Row gutter={[8, 8]}>
         <Col span={24} lg={{ span: 8 }}>
           <Title level={3}>Daily</Title>
@@ -62,8 +64,7 @@ const IndexPage = () => {
           <Table columns={columns} />
         </Col>
       </Row>
-      <br />
-      <br />
+      <Text></Text>
       <Title>Ticker Information</Title>
       <Row gutter={[8, 8]} style={row2ColStyles}>
         <Col span={24} xl={{ span: 12 }}>
@@ -100,8 +101,7 @@ const IndexPage = () => {
           />
         </Col>
       </Row>
-      <br />
-      <br />
+      <Text></Text>
       <Title>News</Title>
       <Timeline
         widgetPropsAny={{
