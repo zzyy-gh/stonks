@@ -11,7 +11,7 @@ const { Title, Text } = Typography;
 // styles
 const pageStyles = {
   color: "#232129",
-  padding: 8,
+  padding: 16,
   fontFamily: "-apple-system, Roboto, sans-serif, serif",
   background: "#e6f7ff",
 };
@@ -44,26 +44,13 @@ const IndexPage = () => {
   return (
     <main style={pageStyles}>
       <title>Stonks</title>
-      <Text>Last edit: 22Sep2021, 8292</Text>
+      <Text></Text>
       <Title>Leaderboard</Title>
       <div>
         <DatePicker />
       </div>
       <br />
-      <Row gutter={[8, 8]}>
-        <Col span={24} lg={{ span: 8 }}>
-          <Title level={3}>Daily</Title>
-          <Table columns={columns} />
-        </Col>
-        <Col span={24} lg={{ span: 8 }}>
-          <Title level={3}>Weekly</Title>
-          <Table columns={columns} />
-        </Col>
-        <Col span={24} lg={{ span: 8 }}>
-          <Title level={3}>Monthly</Title>
-          <Table columns={columns} />
-        </Col>
-      </Row>
+      <Table columns={columns} />
       <Text></Text>
       <Title>Ticker Information</Title>
       <Row gutter={[8, 8]} style={row2ColStyles}>
