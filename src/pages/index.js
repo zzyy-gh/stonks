@@ -1,4 +1,5 @@
 import { Col, Row, Table, Typography, DatePicker } from "antd";
+import moment from "moment";
 import * as React from "react";
 import {
   AdvancedChart,
@@ -21,6 +22,8 @@ const row2ColStyles = {
   minHeight: "300px",
 };
 
+// format
+const highlightColor = "#d9f7be";
 const columns = [
   {
     title: "Ticker",
@@ -28,36 +31,159 @@ const columns = [
     key: "tkr",
   },
   {
-    title: "Performance",
-    dataIndex: "perf",
-    key: "perf",
+    title: "Daily Change %",
+    dataIndex: "dayc",
+    render: (text, row) => {
+      if (row["involvement"].includes("day")) {
+        return {
+          props: {
+            style: { background: highlightColor },
+          },
+          children: text,
+        };
+      } else {
+        return text;
+      }
+    },
+    sorter: (a, b) => a["dayc"] - b["dayc"],
   },
   {
-    title: "IPO Date",
-    dataIndex: "ipo",
-    key: "ipo",
+    title: "Weekly Change %",
+    dataIndex: "weekc",
+    render: (text, row) => {
+      if (row["involvement"].includes("week")) {
+        return {
+          props: {
+            style: { background: highlightColor },
+          },
+          children: text,
+        };
+      } else {
+        return text;
+      }
+    },
+    sorter: (a, b) => a["weekc"] - b["weekc"],
+  },
+  {
+    title: "Monthly Change %",
+    dataIndex: "monc",
+    render: (text, row) => {
+      if (row["involvement"].includes("month")) {
+        return {
+          props: {
+            style: { background: highlightColor },
+          },
+          children: text,
+        };
+      } else {
+        return text;
+      }
+    },
+    sorter: (a, b) => a["monc"] - b["monc"],
   },
 ];
 
 // markup
 const IndexPage = () => {
+  const [latestDate, setLatest] = React.useState();
+  const [earliestDate, setEarliest] = React.useState();
+  const [date, setDate] = React.useState();
+  const [tkr, setTkr] = React.useState("AAPL");
+  const [perfData, setPerfData] = React.useState();
+  const involved = "involvement";
+
+  // get date range on initial load
+  React.useEffect(() => {
+    fetch(
+      "https://asia-southeast2-stonks-810ca.cloudfunctions.net/getDateRange"
+    )
+      .then((x) => x.json())
+      .then((x) => {
+        setLatest(x.latest);
+        setEarliest(x.earliest);
+      });
+  }, []);
+
+  // set initial date
+  React.useEffect(() => {
+    setDate(latestDate);
+  }, [latestDate]);
+
+  // fetch content on date change
+  React.useEffect(() => {
+    fetch(
+      "https://asia-southeast2-stonks-810ca.cloudfunctions.net/getPerfData?date=" +
+        date
+    )
+      .then((x) => x.json())
+      .then((x) => {
+        var cleanedData = [];
+        for (const [key, value] of Object.entries(x)) {
+          value.forEach((item) => {
+            var index = cleanedData.findIndex((x) => x["tkr"] === item["tkr"]);
+            if (index !== -1 || index === 0) {
+              cleanedData[index][involved].push(key);
+            } else {
+              item[involved] = [];
+              item[involved].push(key);
+              cleanedData.push(item);
+            }
+          });
+        }
+        setPerfData(cleanedData);
+      });
+  }, [date]);
+
+  // set date range
+  function disabledDate(current) {
+    var dateInInt = parseInt(moment(current).format("YYYYMMDD"));
+    return (
+      dateInInt < earliestDate ||
+      dateInInt > latestDate ||
+      moment(current).day() === 0 ||
+      moment(current).day() === 6
+    );
+  }
+
+  // datepicker's
+  function onChange(date) {
+    var dateInInt = parseInt(moment(date).format("YYYYMMDD"));
+    setDate(dateInInt);
+  }
+
   return (
     <main style={pageStyles}>
       <title>Stonks</title>
       <Text></Text>
       <Title>Leaderboard</Title>
       <div>
-        <DatePicker />
+        <DatePicker
+          value={moment(date, "YYYYMMDD")}
+          disabledDate={disabledDate}
+          onChange={onChange}
+        />
       </div>
       <br />
-      <Table columns={columns} />
+      <Table
+        columns={columns}
+        dataSource={perfData}
+        pagination={{ pageSize: 10 }}
+        scroll={{ x: 300 }}
+        onRow={(record) => {
+          return {
+            onClick: () => {
+              setTkr(record["tkr"]);
+            }, // click row
+          };
+        }}
+      />
       <Text></Text>
       <Title>Ticker Information</Title>
       <Row gutter={[8, 8]} style={row2ColStyles}>
         <Col span={24} xl={{ span: 12 }}>
           <CompanyProfile
             widgetPropsAny={{
-              symbol: "AAPL",
+              symbol: tkr,
               colorTheme: "light",
               isTransparent: false,
               locale: "en",
@@ -69,7 +195,7 @@ const IndexPage = () => {
         <Col span={24} xl={{ span: 12 }}>
           <AdvancedChart
             widgetPropsAny={{
-              symbol: "AAPL",
+              symbol: tkr,
               width: "100%",
               interval: "D",
               timezone: "Asia/Singapore",

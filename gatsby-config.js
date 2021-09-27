@@ -1,7 +1,11 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
+    siteUrl: "https://stonks.gatsbyjs.io/",
     title: "stonks",
   },
-  plugins: ["gatsby-plugin-styled-components", "gatsby-plugin-gatsby-cloud", "gatsby-plugin-antd"],
+  plugins: [
+    "gatsby-plugin-styled-components",
+    "gatsby-plugin-gatsby-cloud",
+    "gatsby-plugin-antd",
+  ],
 };

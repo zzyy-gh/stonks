@@ -17,10 +17,11 @@
   "dependencies": {
     "antd": "^4.16.12",
     "babel-plugin-styled-components": "^1.13.2",
-    "gatsby": "^3.11.1",
+    "gatsby": "^3.14.0",
     "gatsby-plugin-antd": "^2.2.0",
     "gatsby-plugin-gatsby-cloud": "^3.0.0",
     "gatsby-plugin-styled-components": "^4.12.0",
+    "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-tradingview-embed": "^2.2.6",
