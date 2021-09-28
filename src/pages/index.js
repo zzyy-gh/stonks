@@ -6,6 +6,7 @@ import {
   CompanyProfile,
   Timeline,
 } from "react-tradingview-embed";
+import { AntList } from "../templates/AntList";
 
 const { Title, Text } = Typography;
 
@@ -19,7 +20,15 @@ const pageStyles = {
 
 const row2ColStyles = {
   height: "fit-content",
-  minHeight: "300px",
+};
+
+const tickerNewsStyles = {
+  width: "100%",
+  height: 300,
+  padding: 16,
+  background: "white",
+  overflowY: "auto",
+  marginTop: 8,
 };
 
 // format
@@ -80,6 +89,36 @@ const columns = [
       }
     },
     sorter: (a, b) => a["monc"] - b["monc"],
+  },
+  {
+    title: "Insti. Own. (%)",
+    dataIndex: "sti",
+    key: "sti",
+    sorter: (a, b) => a["sti"] - b["sti"],
+  },
+  {
+    title: "Insi. Own. (%)",
+    dataIndex: "si",
+    key: "si",
+    sorter: (a, b) => a["si"] - b["si"],
+  },
+  {
+    title: "Float",
+    dataIndex: "f",
+    render: (text) => {
+      if (text != null) {
+        return text.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      } else {
+        return text;
+      }
+    },
+    sorter: (a, b) => a["f"] - b["f"],
+  },
+  {
+    title: "Float Short (%)",
+    dataIndex: "fsh",
+    key: "fsh",
+    sorter: (a, b) => a["fsh"] - b["fsh"],
   },
 ];
 
@@ -191,6 +230,11 @@ const IndexPage = () => {
               height: "400",
             }}
           />
+          <AntList
+            tkr={tkr}
+            earliestDate={earliestDate}
+            style={tickerNewsStyles}
+          />
         </Col>
         <Col span={24} xl={{ span: 12 }}>
           <AdvancedChart
@@ -215,7 +259,7 @@ const IndexPage = () => {
         </Col>
       </Row>
       <Text></Text>
-      <Title>News</Title>
+      <Title>Market News</Title>
       <Timeline
         widgetPropsAny={{
           feedMode: "all_symbols",
