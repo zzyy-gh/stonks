@@ -2,13 +2,13 @@ import { List } from "antd";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 
-export const AntList = ({ tkr, earliestDate, style }) => {
+const AntList = ({ tkr, earliestDate, style }) => {
   const [data, setData] = useState();
   useEffect(() => {
     var currentDate = moment(new Date()).format("YYYY-MM-DD");
     var earliest = moment(earliestDate, "YYYYMMDD").format("YYYY-MM-DD");
-    console.log(earliest);
-    console.log(typeof earliest);
+    // console.log(earliest);
+    // console.log(typeof earliest);
     fetch(
       "https://finnhub.io/api/v1/company-news?symbol=" +
         tkr +
@@ -20,7 +20,7 @@ export const AntList = ({ tkr, earliestDate, style }) => {
     )
       .then((x) => x.json())
       .then((x) => setData(x));
-  }, [tkr]);
+  }, [tkr, earliestDate]);
   return (
     <List
       style={style}
@@ -45,3 +45,5 @@ export const AntList = ({ tkr, earliestDate, style }) => {
     />
   );
 };
+
+export default AntList;

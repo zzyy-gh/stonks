@@ -1,27 +1,17 @@
-import { Col, Row, Table, Typography, DatePicker } from "antd";
-import moment from "moment";
 import * as React from "react";
+import moment from "moment";
+import { Col, Row, Table, Typography, DatePicker, Divider } from "antd";
 import {
   AdvancedChart,
   CompanyProfile,
   Timeline,
 } from "react-tradingview-embed";
-import { AntList } from "../templates/AntList";
+import AntList from "../components/AntList";
+import MainLayout from "../templates/MainLayout";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 // styles
-const pageStyles = {
-  color: "#232129",
-  padding: 16,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-  background: "#e6f7ff",
-};
-
-const row2ColStyles = {
-  height: "fit-content",
-};
-
 const tickerNewsStyles = {
   width: "100%",
   height: 300,
@@ -29,6 +19,10 @@ const tickerNewsStyles = {
   background: "white",
   overflowY: "auto",
   marginTop: 8,
+};
+
+const row2ColStyles = {
+  height: "fit-content",
 };
 
 // format
@@ -122,8 +116,7 @@ const columns = [
   },
 ];
 
-// markup
-const IndexPage = () => {
+const IndexPage = ({ location }) => {
   const [latestDate, setLatest] = React.useState();
   const [earliestDate, setEarliest] = React.useState();
   const [date, setDate] = React.useState();
@@ -191,9 +184,8 @@ const IndexPage = () => {
   }
 
   return (
-    <main style={pageStyles}>
+    <MainLayout path={location.pathname}>
       <title>Stonks</title>
-      <Text></Text>
       <Title>Leaderboard</Title>
       <div>
         <DatePicker
@@ -216,7 +208,7 @@ const IndexPage = () => {
           };
         }}
       />
-      <Text></Text>
+      <Divider />
       <Title>Ticker Information</Title>
       <Row gutter={[8, 8]} style={row2ColStyles}>
         <Col span={24} xl={{ span: 12 }}>
@@ -258,7 +250,7 @@ const IndexPage = () => {
           />
         </Col>
       </Row>
-      <Text></Text>
+      <Divider />
       <Title>Market News</Title>
       <Timeline
         widgetPropsAny={{
@@ -271,7 +263,7 @@ const IndexPage = () => {
           locale: "en",
         }}
       />
-    </main>
+    </MainLayout>
   );
 };
 
