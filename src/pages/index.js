@@ -8,25 +8,15 @@ import {
 } from "react-tradingview-embed";
 import AntList from "../components/AntList";
 import MainLayout from "../templates/MainLayout";
+import {
+  highlightColor,
+  tickerNewsStyles,
+  row2ColStyles,
+} from "../styles/styles";
 
 const { Title } = Typography;
 
-// styles
-const tickerNewsStyles = {
-  width: "100%",
-  height: 300,
-  padding: 16,
-  background: "white",
-  overflowY: "auto",
-  marginTop: 8,
-};
-
-const row2ColStyles = {
-  height: "fit-content",
-};
-
 // format
-const highlightColor = "#d9f7be";
 const columns = [
   {
     title: "Ticker",
@@ -198,7 +188,7 @@ const IndexPage = ({ location }) => {
       <Table
         columns={columns}
         dataSource={perfData}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 6 }}
         scroll={{ x: 300 }}
         onRow={(record) => {
           return {

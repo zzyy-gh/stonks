@@ -24,9 +24,10 @@ const MainLayout = ({ children, path }) => {
         >
           <Menu.Item key="/">Daily</Menu.Item>
           <Menu.Item key="/alltime">All Time</Menu.Item>
+          <Menu.Item key="/testapi">Test API</Menu.Item>
         </Menu>
       </Header>
-      <Content style={{ padding: "50px 16px 16px 16px" }}>{children}</Content>
+      <Content style={{ padding: "60px 16px 16px 16px" }}>{children}</Content>
     </Layout>
   );
 };
